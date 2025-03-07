@@ -9,16 +9,34 @@ const genes = {
   rare: [['mystic','My'],['shavar','Sr'],['takhö','Tk'],['tsasan','Ts'],['quagga','Qu'],['marbled','Mb'],['magebane','Mg'],['brume','Br']]
 };
 
+function ceremonialHeadpieceCleanup() {
+	const select = document.getElementById('ceremonialHeadpiece');
+	const valuesToRemove = ['overo'].concat(genes.rare.map(x => x[0]));
+	for (let i = select.options.length - 1; i >= 0; i--) {
+		if (valuesToRemove.includes(select.options[i].value)) {
+			select.remove(i);
+		}
+	}
+	const optgroups = select.getElementsByTagName("optgroup");
+	for (let i = 0; i < optgroups.length; i++) {
+		if (optgroups[i].label === "rare") { // Replace with your target label
+			select.removeChild(optgroups[i]);
+			break; // Stop after removing the first matching optgroup
+		}
+	}
+}
+
 // populate dropdowns
 populate('tarotCard', ['stallion','mare'], false);
 populate('furCloak', genes, true);
 populate('rankRider', ['untrained','initiate','rookie'], false);
-populate('rankHorse', ['adept','veteran'], false);
+populate('rankHorse', ['feral/companion','adept','veteran'], false);
 populate('sireType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('damType', ['jibita pony','haspar draft','tatakh mini'], false);
 populate('buildItems', ['none','light tonic','medium tonic','heavy tonic'], false);
 populate('ceremonialMask', genes, true);
 populate('ceremonialHeadpiece', genes, true);
+ceremonialHeadpieceCleanup();
 // populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
@@ -281,7 +299,7 @@ function rollType() {
   else if (sire.type === 'jibita pony' && dam.type === 'haspar draft' || sire.type === 'haspar draft' && dam.type === 'jibita pony') {
 	let ponyChance = 60;
 	if (input.buildItems === 'medium tonic') ponyChance = 80;
-	else if (input.buildItems === 'heavy tonic') ponyChance = 30;
+	else if (input.buildItems === 'heavy tonic') ponyChance = 20;
 
 	if (rng(100) <= ponyChance) {
       foal.type = 'jibita pony';
