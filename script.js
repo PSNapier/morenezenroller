@@ -1928,6 +1928,6 @@ function buttonPress() {
 }
 
 // testing overrides
-document.getElementById('rankRider').value = 'rookie';
-document.getElementById('rankHorse').value = 'veteran';
-inputUpdate();
+// document.getElementById('rankRider').value = 'rookie';
+// document.getElementById('rankHorse').value = 'veteran';
+// inputUpdate();
