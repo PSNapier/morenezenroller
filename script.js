@@ -58,8 +58,8 @@ const genes = {
      ],
 };
 
-function ceremonialHeadpieceCleanup() {
-     const select = document.getElementById('ceremonialHeadpiece');
+function ceremonialMaskCleanup() {
+     const select = document.getElementById('ceremonialMask');
      const valuesToRemove = ['overo'].concat(genes.rare.map((x) => x[0]));
      for (let i = select.options.length - 1; i >= 0; i--) {
           if (valuesToRemove.includes(select.options[i].value)) {
@@ -69,9 +69,18 @@ function ceremonialHeadpieceCleanup() {
      const optgroups = select.getElementsByTagName('optgroup');
      for (let i = 0; i < optgroups.length; i++) {
           if (optgroups[i].label === 'rare') {
-               // Replace with your target label
                select.removeChild(optgroups[i]);
-               break; // Stop after removing the first matching optgroup
+               break;
+          }
+     }
+}
+
+function ceremonialHeadpieceCleanup() {
+     const select = document.getElementById('ceremonialHeadpiece');
+     const valuesToRemove = ['overo'];
+     for (let i = select.options.length - 1; i >= 0; i--) {
+          if (valuesToRemove.includes(select.options[i].value)) {
+               select.remove(i);
           }
      }
 }
@@ -90,8 +99,9 @@ populate(
 );
 populate('ceremonialMask', genes, true);
 populate('ceremonialHeadpiece', genes, true);
+
+ceremonialMaskCleanup();
 ceremonialHeadpieceCleanup();
-// populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -165,7 +175,7 @@ function inputSetup() {
           fertilitySupplement: document.getElementById('fertilitySupplement')
                .checked,
           ringOfBlessings: document.getElementById('ringOfBlessings').checked,
-          noviceTwins: document.getElementById('noviceTwins').checked,
+          // noviceTwins: document.getElementById('noviceTwins').checked,
           tortoiseCompanion:
                document.getElementById('tortoiseCompanion').checked,
           pendantOfTheAncestors: document.getElementById(
@@ -539,7 +549,7 @@ function rollInbred() {
                } else if (x <= 97) {
                     foal.health.push('infertile');
                } else if (x <= 100) {
-                    foal.health.push('stillborn');
+                    foal.health = ['stillborn'];
                }
           }
 
@@ -957,15 +967,7 @@ function rollCoat(pathGeno) {
                     }
                }
 
-               if (input.charmOfHealth && gene[0] === 'overo') {
-                    if (
-                         !pathGeno.rarities.includes(dom) &&
-                         !pathGeno.rarities.includes(rec)
-                    ) {
-                         charmOfHealthTriggered = true;
-                         pathGeno.rarities.push(rec);
-                    }
-               }
+               charmOfHealthDowngrade(pathGeno, dom, rec);
 
                if (input.ceremonialMask === gene[0] && rng(100) <= 10) {
                     ceremonialMaskTriggered = true;
@@ -990,7 +992,7 @@ function rollCoat(pathGeno) {
                if (x <= 25) {
                     foal.health.push('infertile');
                } else if (x <= 100) {
-                    foal.health.push('stillborn');
+                    foal.health = ['stillborn'];
                }
           }
 
@@ -1044,15 +1046,7 @@ function rollCoat(pathGeno) {
                     }
                }
 
-               if (input.charmOfHealth) {
-                    if (
-                         !pathGeno.rarities.includes(dom) &&
-                         !pathGeno.rarities.includes(rec)
-                    ) {
-                         charmOfHealthTriggered = true;
-                         pathGeno.rarities.push(rec);
-                    }
-               }
+               charmOfHealthDowngrade(pathGeno, dom, rec);
 
                if (input.ceremonialMask === gene[0] && rng(100) <= 15) {
                     ceremonialMaskTriggered = true;

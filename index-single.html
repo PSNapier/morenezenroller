@@ -1,10 +1,6 @@
-<!-- © 2018 MISCNAPIER ALL RIGHTS RESERVED -->
-
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-
-<style>@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+  <style>
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
 
 body {
      margin: 0px;
@@ -26,104 +22,106 @@ body {
 }
 
 p {
-text-align: center;
-  }
-
-a {
-  color: #bc9e6b;
-  }
-
-select {
-  height: 21.25px;
-  font-family: 'ubuntu mono';
-  text-transform: capitalize;
+     text-align: center;
 }
 
-.parents input[type=checkbox] {
-  margin: -10px;
-  margin-left: 5px;
-  padding: 0px;
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
+a {
+     color: #bc9e6b;
+}
+
+select {
+     height: 21.25px;
+     font-family: 'ubuntu mono';
+     text-transform: capitalize;
+}
+
+.parents input[type='checkbox'] {
+     margin: -10px;
+     margin-left: 5px;
+     padding: 0px;
+     vertical-align: middle;
+     height: 16px;
+     width: 16px;
 }
 
 .inputs select {
-  margin: 5px;
-  float: right;
-  width: 100px;
-  overflow: auto;
+     margin: 5px;
+     float: right;
+     width: 100px;
+     overflow: auto;
 }
 
 #inputcontainer {
-  margin: auto;
-  width: 750px;
-  display: flex;
-  justify-content: center;
+     margin: auto;
+     width: 750px;
+     display: flex;
+     justify-content: center;
 }
 
 .inputs {
-  width: 40%;
-  min-width: ;
-  max-width: ;
-  font-size: 15px;
-  padding: 25px;
+     width: 40%;
+     min-width: ;
+     max-width: ;
+     font-size: 15px;
+     padding: 25px;
 }
 
 .inputs label {
-  line-height: 32px;
+     line-height: 32px;
 }
 
 .inputs input {
-  width: 86px;
-  height: 15px;
-  padding: 0;
-  margin: 0; margin-right: 5px;
-  vertical-align: middle;
-  position: relative;
-  top: 10px;
-  float: right;
+     width: 86px;
+     height: 15px;
+     padding: 0;
+     margin: 0;
+     margin-right: 5px;
+     vertical-align: middle;
+     position: relative;
+     top: 10px;
+     float: right;
 }
 
 .parents {
-  clear: left;
-  text-align: center;
+     clear: left;
+     text-align: center;
 }
 
 .foalOutput {
-  text-align: center;
-  white-space: pre-line;
-  font-weight: 900;
-  font-size: 19px;
+     text-align: center;
+     white-space: pre-line;
+     font-weight: 900;
+     font-size: 19px;
 }
 
 button {
-  background-color: #381D26;
-  border: none;
-  color: #E2C491;
-  padding: 10px 25px;
-  text-align: center;
-  display: inline-block;
-  font-family: 'ubuntu mono';
-  font-size: 16px;
+     background-color: #381d26;
+     border: none;
+     color: #e2c491;
+     padding: 10px 25px;
+     text-align: center;
+     display: inline-block;
+     font-family: 'ubuntu mono';
+     font-size: 16px;
 }
 
 button:hover {
-  background-color: #663764;
-  color: #E2C491;
+     background-color: #663764;
+     color: #e2c491;
 }
 
 button:active {
-filter: brightness(115%);
+     filter: brightness(115%);
 }
 
 button:focus {
-outline: 0;
+     outline: 0;
 }
+
 </style>
+</head>
 
 <body>
-
   <div id="container">
     <div class="white">
       <div>
@@ -152,12 +150,12 @@ outline: 0;
             </label>
 			<br><label for="fertilitysup">Fertility Supplement <input type="checkbox" id="fertilitySupplement"></label>
             <br><label for="ringOfBlessings">Ring Of Blessings <input type="checkbox" id="ringOfBlessings"></label>
-            <br><label for="novicetwins">Novice Rolling Twins <input type="checkbox" id="noviceTwins"></label>
+            <!-- <br><label for="novicetwins">Novice Rolling Twins <input type="checkbox" id="noviceTwins"></label> -->
+            <br><label for="tortoisecomp">Tortoise Companion <input type="checkbox" id="tortoiseCompanion"></label>
           </div>
 
           <div class="inputs">
-            <label for="tortoisecomp">Tortoise Companion <input type="checkbox" id="tortoiseCompanion"></label>
-            <br><label for="pendantancestors">Pendant Of The Ancestors <input type="checkbox" id="pendantOfTheAncestors"></label>
+             <label for="pendantancestors">Pendant Of The Ancestors <input type="checkbox" id="pendantOfTheAncestors"></label>
 			<br><label for="buildItems">Build Items
               <select id="buildItems">
               </select>
@@ -208,107 +206,109 @@ outline: 0;
 
   </body>
 
-  <script>/* jshint esversion: 6 */
+  <script>
+/* jshint esversion: 6 */
 
 // Snippets
 // .replace(/(,\s)(?!.*\1)/, ' and ') <-- find last instance
 
 function browserCheck() {
-  const isChrome = !window.chrome;
-  if (isChrome === false) {
-    browser.style.display = 'none';
-  }
+     const isChrome = !window.chrome;
+     if (isChrome === false) {
+          browser.style.display = 'none';
+     }
 }
 
 function populate(id, array, optGroup) {
-  if (optGroup === false) {
-    let select = document.getElementById(id);
-    let options = array;
+     if (optGroup === false) {
+          let select = document.getElementById(id);
+          let options = array;
 
-    for (let i = 0; i < options.length; i++) {
-      let opt = options[i];
-      let ele = document.createElement('option');
-      ele.textContent = opt;
-      ele.value = opt;
-      select.appendChild(ele);
-    }
-  } else {
-    let select = document.getElementById(id);
-    let groups = Object.keys(array);
-    // console.log(groups);
+          for (let i = 0; i < options.length; i++) {
+               let opt = options[i];
+               let ele = document.createElement('option');
+               ele.textContent = opt;
+               ele.value = opt;
+               select.appendChild(ele);
+          }
+     } else {
+          let select = document.getElementById(id);
+          let groups = Object.keys(array);
+          // console.log(groups);
 
-    for (let i = 0; i < groups.length; i++) {
-      let gro = groups[i];
-      let groEle = document.createElement('optgroup');
-      groEle.label = gro;
-      select.appendChild(groEle);
+          for (let i = 0; i < groups.length; i++) {
+               let gro = groups[i];
+               let groEle = document.createElement('optgroup');
+               groEle.label = gro;
+               select.appendChild(groEle);
 
-      let options = array[gro];
-      for (let i = 0; i < options.length; i++) {
-        let opt = options[i][0];
-        let ele = document.createElement('option');
-        ele.textContent = opt;
-        ele.value = opt;
-        select.appendChild(ele);
-      }
-    }
-  }
+               let options = array[gro];
+               for (let i = 0; i < options.length; i++) {
+                    let opt = options[i][0];
+                    let ele = document.createElement('option');
+                    ele.textContent = opt;
+                    ele.value = opt;
+                    select.appendChild(ele);
+               }
+          }
+     }
 }
 
 function reload() {
-  window.location.reload(false);
+     window.location.reload(false);
 }
 
 function rng(max) {
-  const rng = Math.floor(Math.random() * max) + 1;
-  return rng;
+     const rng = Math.floor(Math.random() * max) + 1;
+     return rng;
 }
 
 function rngRange(min, max) {
-  const rng = Math.floor(Math.random() * (max - min + 1)) + min;
-  return rng;
+     const rng = Math.floor(Math.random() * (max - min + 1)) + min;
+     return rng;
 }
 
 function randomizer(array) {
-  if (array.length > 0) {
-    const random = array[Math.floor(Math.random() * array.length)];
-    return random;
-  } else {
-    return '';
-  }
+     if (array.length > 0) {
+          const random = array[Math.floor(Math.random() * array.length)];
+          return random;
+     } else {
+          return '';
+     }
 }
 
 function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
+     return self.indexOf(value) === index;
 }
 // let a = ['a', 1, 'a', 2, '1'];
 // let unique = a.filter( onlyUnique ); // returns ['a', 1, 2, '1']
 
 function combiner(array) {
-  const result = [],
-    f = function(prefix=[], array) {
-    for (let i = 0; i < array.length; i++) {
-      result.push([...prefix,array[i]]);
-      f([...prefix,array[i]], array.slice(i + 1));
+     const result = [],
+          f = function (prefix = [], array) {
+               for (let i = 0; i < array.length; i++) {
+                    result.push([...prefix, array[i]]);
+                    f([...prefix, array[i]], array.slice(i + 1));
+               }
+          };
+     f('', array);
+     return result;
+}
+
+function capitalizeArr(array) {
+     var newArray = [];
+
+     for (var x = 0; x < array.length; x++) {
+          newArray.push(array[x].charAt(0).toUpperCase() + array[x].slice(1));
      }
-    };
-  f('', array);
-  return result;
+     return newArray;
 }
 
-function capitalizeArr(array)
-{
-  var newArray = [];
-
-  for(var x = 0; x < array.length; x++){
-      newArray.push(array[x].charAt(0).toUpperCase()+array[x].slice(1));
-  }
-  return newArray;
-}
-
-String.prototype.capitalizeStr = function() {
-  // TODO: capitalize no worky with opening parenthesis even though regexr says it should?
-  return this.replace(/(?:^|\(|\s|-|\/)\S/g, function(a) { return a.toUpperCase(); });
+String.prototype.capitalizeStr = function () {
+     // TODO: capitalize no worky with opening parenthesis even though regexr says it should?
+     return this.replace(/(?:^|\(|\s|-|\/)\S/g, function (a) {
+          return a.toUpperCase();
+     });
 };
 // string.capitalize();
 
@@ -316,17 +316,30 @@ String.prototype.capitalizeStr = function() {
 // const sortOrder = ['banana', 'date', 'apple', 'cherry'];
 // const sortedArray = arrayToSort.sortByArray(sortOrder);
 // console.log(sortedArray);
-Array.prototype.sortByArray = function(orderArr) {
-    const map = new Map();
-    orderArr.forEach((val, index) => map.set(val, index));
-    return this.sort((a, b) => map.get(a) - map.get(b));
+Array.prototype.sortByArray = function (orderArr) {
+     const map = new Map();
+     orderArr.forEach((val, index) => map.set(val, index));
+     return this.sort((a, b) => map.get(a) - map.get(b));
 };
 
-Array.prototype.checkGene = function(geneRegex) {
-	return this.some(x => geneRegex.test(x))
+Array.prototype.checkGene = function (geneRegex) {
+     return this.some((x) => geneRegex.test(x));
+};
+
+function charmOfHealthDowngrade(pathGeno, dom, rec) {
+     // Charm of Health: downgrade dominant genes to heterozygous
+     if (charmOfHealthTriggered && pathGeno.rarities.includes(dom)) {
+          // Find and replace dominant with recessive
+          let domIndex = pathGeno.rarities.indexOf(dom);
+          if (domIndex !== -1) {
+               pathGeno.rarities[domIndex] = rec;
+          }
+     }
 }
+
 </script>
-  <script>const dictAgouti = [
+  <script>
+const dictAgouti = [
      // ['parent1', 'parent2', ['possibilities...']],
      ['aa', 'aa', ['aa']],
      ['aa', 'Aa', ['aa', 'Aa']],
@@ -731,8 +744,10 @@ Array.prototype.checkGene = function(geneRegex) {
           ['AA', 'AtA', 'AAt', 'AtAt', 'AwA', 'AAw', 'AwAw', 'AtAw', 'AwAt'],
      ],
 ];
+
 </script>
-  <script>/* jshint esversion: 6 */
+  <script>
+/* jshint esversion: 6 */
 // NOV 2019 REFACTOR
 
 // geneArrays
@@ -792,8 +807,8 @@ const genes = {
      ],
 };
 
-function ceremonialHeadpieceCleanup() {
-     const select = document.getElementById('ceremonialHeadpiece');
+function ceremonialMaskCleanup() {
+     const select = document.getElementById('ceremonialMask');
      const valuesToRemove = ['overo'].concat(genes.rare.map((x) => x[0]));
      for (let i = select.options.length - 1; i >= 0; i--) {
           if (valuesToRemove.includes(select.options[i].value)) {
@@ -803,9 +818,18 @@ function ceremonialHeadpieceCleanup() {
      const optgroups = select.getElementsByTagName('optgroup');
      for (let i = 0; i < optgroups.length; i++) {
           if (optgroups[i].label === 'rare') {
-               // Replace with your target label
                select.removeChild(optgroups[i]);
-               break; // Stop after removing the first matching optgroup
+               break;
+          }
+     }
+}
+
+function ceremonialHeadpieceCleanup() {
+     const select = document.getElementById('ceremonialHeadpiece');
+     const valuesToRemove = ['overo'];
+     for (let i = select.options.length - 1; i >= 0; i--) {
+          if (valuesToRemove.includes(select.options[i].value)) {
+               select.remove(i);
           }
      }
 }
@@ -824,8 +848,9 @@ populate(
 );
 populate('ceremonialMask', genes, true);
 populate('ceremonialHeadpiece', genes, true);
+
+ceremonialMaskCleanup();
 ceremonialHeadpieceCleanup();
-// populate('ceremonialBelt', ['chestnut','mealy','wild bay','bay','black'], false);
 
 // setup input objects, add event listener to inputs and update objects on change
 function inputSetup() {
@@ -899,7 +924,7 @@ function inputSetup() {
           fertilitySupplement: document.getElementById('fertilitySupplement')
                .checked,
           ringOfBlessings: document.getElementById('ringOfBlessings').checked,
-          noviceTwins: document.getElementById('noviceTwins').checked,
+          // noviceTwins: document.getElementById('noviceTwins').checked,
           tortoiseCompanion:
                document.getElementById('tortoiseCompanion').checked,
           pendantOfTheAncestors: document.getElementById(
@@ -1273,7 +1298,7 @@ function rollInbred() {
                } else if (x <= 97) {
                     foal.health.push('infertile');
                } else if (x <= 100) {
-                    foal.health.push('stillborn');
+                    foal.health = ['stillborn'];
                }
           }
 
@@ -1691,15 +1716,7 @@ function rollCoat(pathGeno) {
                     }
                }
 
-               if (input.charmOfHealth && gene[0] === 'overo') {
-                    if (
-                         !pathGeno.rarities.includes(dom) &&
-                         !pathGeno.rarities.includes(rec)
-                    ) {
-                         charmOfHealthTriggered = true;
-                         pathGeno.rarities.push(rec);
-                    }
-               }
+               charmOfHealthDowngrade(pathGeno, dom, rec);
 
                if (input.ceremonialMask === gene[0] && rng(100) <= 10) {
                     ceremonialMaskTriggered = true;
@@ -1724,7 +1741,7 @@ function rollCoat(pathGeno) {
                if (x <= 25) {
                     foal.health.push('infertile');
                } else if (x <= 100) {
-                    foal.health.push('stillborn');
+                    foal.health = ['stillborn'];
                }
           }
 
@@ -1778,15 +1795,7 @@ function rollCoat(pathGeno) {
                     }
                }
 
-               if (input.charmOfHealth) {
-                    if (
-                         !pathGeno.rarities.includes(dom) &&
-                         !pathGeno.rarities.includes(rec)
-                    ) {
-                         charmOfHealthTriggered = true;
-                         pathGeno.rarities.push(rec);
-                    }
-               }
+               charmOfHealthDowngrade(pathGeno, dom, rec);
 
                if (input.ceremonialMask === gene[0] && rng(100) <= 15) {
                     ceremonialMaskTriggered = true;
@@ -2665,4 +2674,5 @@ function buttonPress() {
 // document.getElementById('rankRider').value = 'rookie';
 // document.getElementById('rankHorse').value = 'veteran';
 // inputUpdate();
+
 </script>

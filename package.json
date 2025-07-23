@@ -1,0 +1,19 @@
+{
+     "name": "moren-ezen-roller",
+     "version": "1.0.0",
+     "description": "Horse breeding roller for Moren Ezen group",
+     "scripts": {
+          "build": "node build.js",
+          "build:bash": "chmod +x build.sh && ./build.sh",
+          "dev": "echo 'Use a local server like: python -m http.server 8000'"
+     },
+     "devDependencies": {},
+     "keywords": [
+          "horse",
+          "breeding",
+          "roller",
+          "game"
+     ],
+     "author": "Your Name",
+     "license": "MIT"
+}

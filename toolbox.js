@@ -116,3 +116,14 @@ Array.prototype.sortByArray = function (orderArr) {
 Array.prototype.checkGene = function (geneRegex) {
      return this.some((x) => geneRegex.test(x));
 };
+
+function charmOfHealthDowngrade(pathGeno, dom, rec) {
+     // Charm of Health: downgrade dominant genes to heterozygous
+     if (charmOfHealthTriggered && pathGeno.rarities.includes(dom)) {
+          // Find and replace dominant with recessive
+          let domIndex = pathGeno.rarities.indexOf(dom);
+          if (domIndex !== -1) {
+               pathGeno.rarities[domIndex] = rec;
+          }
+     }
+}
