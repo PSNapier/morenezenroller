@@ -11,7 +11,7 @@
 -    [/] Fix dominant Overo (OvOv) always resulting in stillborn foals
 -    [/] Fix Charm of Success giving too many stats - need to understand stat calculation system and relay to client
 -    [ ] Fix Ceremonial Belt not properly updating base coats (issue with Agouti(A) genes)
--    [ ] Fix Ceremonial Belt throwing weird genotype combinations (especially with wild bay/mealy bay)
+-    [ ] Fix Ceremonial Belt throwing weird genotype combinations (especially with wild bay/mealy bay)... provided an example like this: Ee/aa/aa/AAw/AA/aa/aa/Awa
 
 ## Sessions
 
