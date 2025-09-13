@@ -238,44 +238,36 @@ function ceremonialBeltSetup() {
                dam.geno.match(regEx2) !== null
                     ? dam.geno.match(regEx2)[0]
                     : 'e';
-          return [geneA + geneC, geneB + geneC, geneA + geneD, geneB + geneD]
-               .map((x) => x.split('').sortByArray(sorted).join(''))
-               .filter(onlyUnique);
+          return [
+               geneA + geneC,
+               geneB + geneC,
+               geneA + geneD,
+               geneB + geneD,
+          ].map((x) => x.split('').sortByArray(sorted).join(''));
      }
 
      function getAgouti() {
-          let sorted = ['A', 'At', 'Aw', 'a'];
-          let regEx1 = /(A|At|Aw|a)(?=A|At|Aw|a)/;
-          let regEx2 = /(?<=A|At|Aw|a)(A|At|Aw|a)/;
+          let regEx = /\b(At|Aw|A|a)(A|At|Aw|A|a)\b/;
 
-          let geneA =
-               sire.geno.match(regEx1) !== null
-                    ? sire.geno.match(regEx1)[0]
-                    : 'a';
-          let geneB =
-               sire.geno.match(regEx2) !== null
-                    ? sire.geno.match(regEx2)[0]
-                    : 'a';
-          let geneC =
-               dam.geno.match(regEx1) !== null
-                    ? dam.geno.match(regEx1)[0]
-                    : 'a';
-          let geneD =
-               dam.geno.match(regEx2) !== null
-                    ? dam.geno.match(regEx2)[0]
-                    : 'a';
-          return [
-               [geneA, geneC],
-               [geneB, geneC],
-               [geneA, geneD],
-               [geneB, geneD],
-          ]
-               .map((x) => x.sortByArray(sorted).join(''))
-               .filter(onlyUnique);
+          let sireGene =
+               sire.geno.match(regEx) !== null
+                    ? sire.geno.match(regEx)[0]
+                    : 'aa';
+          let damGene =
+               dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0] : 'aa';
+
+          // Find the matching entry in dictAgouti
+          let entry = dictAgouti.find(
+               ([parent1, parent2]) =>
+                    (parent1 === sireGene && parent2 === damGene) ||
+                    (parent1 === damGene && parent2 === sireGene)
+          );
+
+          return entry ? entry[2] : ['aa']; // Return possible offspring or default to 'aa'
      }
 
      let geno = { black: getBlack(), agouti: getAgouti() };
-     console.log(geno);
+     // console.log(geno);
      let output = [];
      if (
           geno.black.checkGene(/ee/) &&
@@ -294,12 +286,9 @@ function ceremonialBeltSetup() {
           geno.agouti.checkGene(/(AAw|AwA|Awa|AwAw)/)
      ) {
           output.push('wild bay');
-          if (
-               geno.black.checkGene(/E(E|e)/) &&
-               geno.agouti.checkGene(/(A)(A|a)/)
-          ) {
-               output.push('bay');
-          }
+     }
+     if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(A)(A|a)/)) {
+          output.push('bay');
      }
      if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/aa/)) {
           output.push('black');
