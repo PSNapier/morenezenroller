@@ -384,10 +384,18 @@ function foalSetup() {
 
 // TODO: refactor rollStats, still long-winded and assumes formatting too much
 function rollStats() {
-     function rngStats(x) {
-          if (input.charmOfSuccess) x = x * 2;
-          let roll = Math.floor(Math.random() * x);
-          return roll;
+     function rngStats(maxStat, minStat) {
+          if (input.charmOfSuccess) {
+               // With Charm of Success: roll between min and max (inclusive)
+               let roll =
+                    Math.floor(Math.random() * (maxStat - minStat + 1)) +
+                    minStat;
+               return roll;
+          } else {
+               // Normal behavior: roll between 0 and max
+               let roll = Math.floor(Math.random() * (maxStat + 1));
+               return roll;
+          }
      }
 
      function logicStats() {
@@ -407,12 +415,12 @@ function rollStats() {
           let dag = parseInt(dstat[4], 10);
           let dvi = parseInt(dstat[5], 10);
 
-          foal.stats[0] = ssp > dsp ? rngStats(ssp) : rngStats(dsp);
-          foal.stats[1] = sst > dst ? rngStats(sst) : rngStats(dst);
-          foal.stats[2] = ssm > dsm ? rngStats(ssm) : rngStats(dsm);
-          foal.stats[3] = sin > din ? rngStats(sin) : rngStats(din);
-          foal.stats[4] = sag > dag ? rngStats(sag) : rngStats(dag);
-          foal.stats[5] = svi > dvi ? rngStats(svi) : rngStats(dvi);
+          foal.stats[0] = ssp > dsp ? rngStats(ssp, dsp) : rngStats(dsp, ssp);
+          foal.stats[1] = sst > dst ? rngStats(sst, dst) : rngStats(dst, sst);
+          foal.stats[2] = ssm > dsm ? rngStats(ssm, dsm) : rngStats(dsm, ssm);
+          foal.stats[3] = sin > din ? rngStats(sin, din) : rngStats(din, sin);
+          foal.stats[4] = sag > dag ? rngStats(sag, dag) : rngStats(dag, sag);
+          foal.stats[5] = svi > dvi ? rngStats(svi, dvi) : rngStats(dvi, svi);
      }
 
      function addPendantOfTheAncestors() {
