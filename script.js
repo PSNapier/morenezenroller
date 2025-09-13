@@ -1707,6 +1707,17 @@ function rollMutations() {
      foal.pheno.mutations = foal.pheno.mutations.filter(onlyUnique);
 }
 
+function checkDominantOvero() {
+     // Check if foal has dominant overo (OvOv) - should be stillborn
+     let foalGeno =
+          foal.geno.main.base.join(' ') +
+          ' ' +
+          foal.geno.main.rarities.join(' ');
+     if (foalGeno.search(/\bOvOv\b/) !== -1) {
+          foal.health = ['stillborn'];
+     }
+}
+
 function sanitize() {
      // geno
      function genoFold(path) {
@@ -1827,6 +1838,7 @@ function outputFoal(counter) {
           rollCoat(foal.geno.chimera);
           readPheno(foal.geno.chimera, foal.pheno.chimera);
      }
+     checkDominantOvero();
      sanitize();
 
      document.getElementById(id).innerText =
