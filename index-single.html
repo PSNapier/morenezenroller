@@ -987,44 +987,36 @@ function ceremonialBeltSetup() {
                dam.geno.match(regEx2) !== null
                     ? dam.geno.match(regEx2)[0]
                     : 'e';
-          return [geneA + geneC, geneB + geneC, geneA + geneD, geneB + geneD]
-               .map((x) => x.split('').sortByArray(sorted).join(''))
-               .filter(onlyUnique);
+          return [
+               geneA + geneC,
+               geneB + geneC,
+               geneA + geneD,
+               geneB + geneD,
+          ].map((x) => x.split('').sortByArray(sorted).join(''));
      }
 
      function getAgouti() {
-          let sorted = ['A', 'At', 'Aw', 'a'];
-          let regEx1 = /(A|At|Aw|a)(?=A|At|Aw|a)/;
-          let regEx2 = /(?<=A|At|Aw|a)(A|At|Aw|a)/;
+          let regEx = /\b(At|Aw|A|a)(A|At|Aw|A|a)\b/;
 
-          let geneA =
-               sire.geno.match(regEx1) !== null
-                    ? sire.geno.match(regEx1)[0]
-                    : 'a';
-          let geneB =
-               sire.geno.match(regEx2) !== null
-                    ? sire.geno.match(regEx2)[0]
-                    : 'a';
-          let geneC =
-               dam.geno.match(regEx1) !== null
-                    ? dam.geno.match(regEx1)[0]
-                    : 'a';
-          let geneD =
-               dam.geno.match(regEx2) !== null
-                    ? dam.geno.match(regEx2)[0]
-                    : 'a';
-          return [
-               [geneA, geneC],
-               [geneB, geneC],
-               [geneA, geneD],
-               [geneB, geneD],
-          ]
-               .map((x) => x.sortByArray(sorted).join(''))
-               .filter(onlyUnique);
+          let sireGene =
+               sire.geno.match(regEx) !== null
+                    ? sire.geno.match(regEx)[0]
+                    : 'aa';
+          let damGene =
+               dam.geno.match(regEx) !== null ? dam.geno.match(regEx)[0] : 'aa';
+
+          // Find the matching entry in dictAgouti
+          let entry = dictAgouti.find(
+               ([parent1, parent2]) =>
+                    (parent1 === sireGene && parent2 === damGene) ||
+                    (parent1 === damGene && parent2 === sireGene)
+          );
+
+          return entry ? entry[2] : ['aa']; // Return possible offspring or default to 'aa'
      }
 
      let geno = { black: getBlack(), agouti: getAgouti() };
-     console.log(geno);
+     // console.log(geno);
      let output = [];
      if (
           geno.black.checkGene(/ee/) &&
@@ -1043,12 +1035,9 @@ function ceremonialBeltSetup() {
           geno.agouti.checkGene(/(AAw|AwA|Awa|AwAw)/)
      ) {
           output.push('wild bay');
-          if (
-               geno.black.checkGene(/E(E|e)/) &&
-               geno.agouti.checkGene(/(A)(A|a)/)
-          ) {
-               output.push('bay');
-          }
+     }
+     if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/(A)(A|a)/)) {
+          output.push('bay');
      }
      if (geno.black.checkGene(/E(E|e)/) && geno.agouti.checkGene(/aa/)) {
           output.push('black');
@@ -1133,10 +1122,18 @@ function foalSetup() {
 
 // TODO: refactor rollStats, still long-winded and assumes formatting too much
 function rollStats() {
-     function rngStats(x) {
-          if (input.charmOfSuccess) x = x * 2;
-          let roll = Math.floor(Math.random() * x);
-          return roll;
+     function rngStats(maxStat, minStat) {
+          if (input.charmOfSuccess) {
+               // With Charm of Success: roll between min and max (inclusive)
+               let roll =
+                    Math.floor(Math.random() * (maxStat - minStat + 1)) +
+                    minStat;
+               return roll;
+          } else {
+               // Normal behavior: roll between 0 and max
+               let roll = Math.floor(Math.random() * (maxStat + 1));
+               return roll;
+          }
      }
 
      function logicStats() {
@@ -1156,12 +1153,12 @@ function rollStats() {
           let dag = parseInt(dstat[4], 10);
           let dvi = parseInt(dstat[5], 10);
 
-          foal.stats[0] = ssp > dsp ? rngStats(ssp) : rngStats(dsp);
-          foal.stats[1] = sst > dst ? rngStats(sst) : rngStats(dst);
-          foal.stats[2] = ssm > dsm ? rngStats(ssm) : rngStats(dsm);
-          foal.stats[3] = sin > din ? rngStats(sin) : rngStats(din);
-          foal.stats[4] = sag > dag ? rngStats(sag) : rngStats(dag);
-          foal.stats[5] = svi > dvi ? rngStats(svi) : rngStats(dvi);
+          foal.stats[0] = ssp > dsp ? rngStats(ssp, dsp) : rngStats(dsp, ssp);
+          foal.stats[1] = sst > dst ? rngStats(sst, dst) : rngStats(dst, sst);
+          foal.stats[2] = ssm > dsm ? rngStats(ssm, dsm) : rngStats(dsm, ssm);
+          foal.stats[3] = sin > din ? rngStats(sin, din) : rngStats(din, sin);
+          foal.stats[4] = sag > dag ? rngStats(sag, dag) : rngStats(dag, sag);
+          foal.stats[5] = svi > dvi ? rngStats(svi, dvi) : rngStats(dvi, svi);
      }
 
      function addPendantOfTheAncestors() {
@@ -2456,6 +2453,17 @@ function rollMutations() {
      foal.pheno.mutations = foal.pheno.mutations.filter(onlyUnique);
 }
 
+function checkDominantOvero() {
+     // Check if foal has dominant overo (OvOv) - should be stillborn
+     let foalGeno =
+          foal.geno.main.base.join(' ') +
+          ' ' +
+          foal.geno.main.rarities.join(' ');
+     if (foalGeno.search(/\bOvOv\b/) !== -1) {
+          foal.health = ['stillborn'];
+     }
+}
+
 function sanitize() {
      // geno
      function genoFold(path) {
@@ -2576,6 +2584,7 @@ function outputFoal(counter) {
           rollCoat(foal.geno.chimera);
           readPheno(foal.geno.chimera, foal.pheno.chimera);
      }
+     checkDominantOvero();
      sanitize();
 
      document.getElementById(id).innerText =
